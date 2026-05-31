@@ -1,0 +1,208 @@
+.checkout-wrap {
+  display: grid;
+  gap: var(--space-10);
+  padding-block: var(--space-12) var(--space-24);
+}
+
+.checkout-grid {
+  display: grid;
+  gap: var(--space-10);
+}
+
+.checkout-hero {
+  display: grid;
+  gap: var(--space-3);
+  max-width: 760px;
+}
+
+.cod-steps {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.cod-step {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  padding-inline: var(--space-4);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: rgba(255,255,255,0.024);
+  color: var(--text-dim);
+  font-size: var(--fs-body-sm);
+  font-weight: 800;
+}
+
+.cod-step.is-active {
+  border-color: var(--line-strong);
+  color: var(--text);
+}
+
+.checkout-panel {
+  display: grid;
+  gap: var(--space-6);
+  padding: var(--space-8);
+  border: 1px solid var(--line);
+  border-radius: var(--r-2xl);
+  background: var(--bg-soft);
+  box-shadow: var(--shadow-md);
+}
+
+.checkout-line {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: var(--space-4);
+  align-items: center;
+  padding: var(--space-4);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--r-xl);
+  background: rgba(255,255,255,0.025);
+  box-shadow: var(--shadow-sm);
+}
+
+.checkout-line img {
+  width: 84px;
+  height: 104px;
+  object-fit: cover;
+  border-radius: var(--r-xl);
+}
+
+.form-grid {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.checkout-progress {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.progress-track {
+  height: var(--space-2);
+  overflow: hidden;
+  border-radius: var(--r-pill);
+  background: rgba(255,255,255,0.08);
+}
+
+.progress-fill {
+  width: 88%;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.field label {
+  color: var(--text-soft);
+  font-size: var(--fs-body-sm);
+  font-weight: 700;
+}
+
+.field input,
+.field textarea {
+  min-height: 58px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  padding: var(--space-4) var(--space-5);
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--ease), background-color var(--ease), box-shadow var(--ease), transform var(--ease);
+}
+
+.field input:focus,
+.field textarea:focus {
+  border-color: var(--line-strong);
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-md);
+  transform: translateY(calc(var(--space-1) * -1));
+}
+
+.field textarea {
+  min-height: 112px;
+  resize: vertical;
+}
+
+.quick-pay-row,
+.cod-note,
+.cod-confirm,
+.checkout-success {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: var(--r-xl);
+  background: rgba(255,255,255,0.025);
+}
+
+.cod-confirm {
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  color: var(--text-soft);
+  font-size: var(--fs-body-sm);
+  font-weight: 700;
+}
+
+.cod-confirm input {
+  width: var(--space-5);
+  height: var(--space-5);
+  accent-color: var(--accent);
+}
+
+.grand-total {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--line);
+  color: var(--text);
+  font-size: var(--fs-body-lg);
+}
+
+.checkout-success {
+  display: none;
+  text-align: center;
+}
+
+.checkout-success.is-visible {
+  display: grid;
+  animation: success-pop var(--ease);
+}
+
+.success-mark {
+  width: var(--space-16);
+  height: var(--space-16);
+  display: grid;
+  place-items: center;
+  margin-inline: auto;
+  border-radius: var(--r-pill);
+  background: var(--success);
+  color: var(--bg);
+  font-weight: 800;
+  box-shadow: 0 0 40px rgba(121,227,159,0.24);
+}
+
+@keyframes success-pop {
+  from {
+    opacity: 0;
+    transform: translateY(var(--space-4)) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (min-width: 1024px) {
+  .cod-steps {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .checkout-grid {
+    grid-template-columns: 0.8fr 1.2fr;
+    align-items: start;
+  }
+}

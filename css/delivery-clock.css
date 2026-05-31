@@ -1,0 +1,269 @@
+/* =====================================================
+   DELIVERY COUNTDOWN CLOCK — Krilem
+   Floating, collapsible 4-min free delivery timer
+   ===================================================== */
+
+.delivery-clock {
+  position: fixed;
+  left: var(--space-4);
+  bottom: calc(var(--space-5) + var(--safe-bottom));
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  filter: drop-shadow(0 16px 40px rgba(0,0,0,0.55));
+  animation: clock-slide-in 0.55s var(--ease) both;
+}
+
+@keyframes clock-slide-in {
+  from { opacity: 0; transform: translateY(24px) scale(0.9); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Toggle pill (always visible) ─────────────────── */
+.delivery-clock__toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: var(--r-pill);
+  background: rgba(12,12,12,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--fs-body-sm);
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.07);
+  transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
+  user-select: none;
+  white-space: nowrap;
+  outline: none;
+  position: relative;
+  z-index: 2;
+}
+
+.delivery-clock__toggle:hover {
+  border-color: rgba(255,255,255,0.22);
+  box-shadow: 0 12px 36px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.10);
+  transform: translateY(-2px);
+}
+
+.delivery-clock__toggle:active { transform: scale(0.97); }
+
+/* live dot */
+.delivery-clock__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 0 rgba(121,227,159,0.5);
+  animation: dot-pulse 1.8s ease-out infinite;
+  flex: 0 0 auto;
+}
+.delivery-clock.is-expired .delivery-clock__dot {
+  background: var(--danger);
+  animation: dot-pulse-red 1.8s ease-out infinite;
+}
+
+@keyframes dot-pulse {
+  0%   { box-shadow: 0 0 0 0   rgba(121,227,159,0.55); }
+  70%  { box-shadow: 0 0 0 7px rgba(121,227,159,0); }
+  100% { box-shadow: 0 0 0 0   rgba(121,227,159,0); }
+}
+@keyframes dot-pulse-red {
+  0%   { box-shadow: 0 0 0 0   rgba(239,107,107,0.55); }
+  70%  { box-shadow: 0 0 0 7px rgba(239,107,107,0); }
+  100% { box-shadow: 0 0 0 0   rgba(239,107,107,0); }
+}
+
+.delivery-clock__toggle-label {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  line-height: 1.2;
+}
+
+.delivery-clock__toggle-time {
+  font-family: var(--font-mono);
+  font-size: clamp(0.84rem, 1.2vw, 0.94rem);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: var(--text);
+  transition: color 0.3s;
+}
+.delivery-clock.is-urgent  .delivery-clock__toggle-time { color: #ffb347; }
+.delivery-clock.is-expired .delivery-clock__toggle-time { color: var(--danger); }
+
+.delivery-clock__toggle-sub {
+  font-size: var(--fs-caption);
+  color: var(--text-dim);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* chevron */
+.delivery-clock__chevron {
+  margin-left: var(--space-2);
+  flex: 0 0 auto;
+  transition: transform var(--ease);
+  color: var(--text-dim);
+  line-height: 1;
+}
+.delivery-clock.is-open .delivery-clock__chevron { transform: rotate(180deg); }
+
+/* ── Expanded panel ────────────────────────────────── */
+.delivery-clock__panel {
+  width: 234px;
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition:
+    grid-template-rows 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 320ms ease,
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  opacity: 0;
+  transform: translateY(-8px);
+  margin-bottom: -1px;
+}
+.delivery-clock.is-open .delivery-clock__panel {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.delivery-clock__panel-inner { overflow: hidden; }
+
+.delivery-clock__card {
+  background: rgba(11,11,11,0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-bottom: none;
+  border-radius: var(--r-xl) var(--r-xl) 0 0;
+  padding: var(--space-5) var(--space-5) calc(var(--space-5) + 2px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+/* ── SVG Arc Clock ─────────────────────────────────── */
+.delivery-clock__face {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  flex: 0 0 auto;
+}
+
+.delivery-clock__svg {
+  width: 112px;
+  height: 112px;
+  transform: rotate(-90deg);
+}
+
+.delivery-clock__track {
+  fill: none;
+  stroke: rgba(255,255,255,0.06);
+  stroke-width: 5;
+}
+
+.delivery-clock__progress {
+  fill: none;
+  stroke: var(--success);
+  stroke-width: 5;
+  stroke-linecap: round;
+  /* circumference = 2π × 48 ≈ 301.59 */
+  stroke-dasharray: 301.59;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset 1s linear, stroke 0.5s ease;
+  filter: drop-shadow(0 0 5px rgba(121,227,159,0.6));
+}
+.delivery-clock.is-urgent .delivery-clock__progress {
+  stroke: #ffb347;
+  filter: drop-shadow(0 0 5px rgba(255,179,71,0.6));
+}
+.delivery-clock.is-expired .delivery-clock__progress {
+  stroke: var(--danger);
+  filter: drop-shadow(0 0 5px rgba(239,107,107,0.6));
+}
+
+.delivery-clock__display {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+
+.delivery-clock__mm-ss {
+  font-family: var(--font-mono);
+  font-size: 1.55rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  color: var(--text);
+  transition: color 0.3s;
+}
+.delivery-clock.is-urgent  .delivery-clock__mm-ss { color: #ffb347; }
+.delivery-clock.is-expired .delivery-clock__mm-ss { color: var(--danger); }
+
+.delivery-clock__face-label {
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ── Info text ─────────────────────────────────────── */
+.delivery-clock__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.delivery-clock__headline {
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.35;
+}
+
+.delivery-clock__sub {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+}
+
+.delivery-clock__expired-msg {
+  display: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--danger);
+  text-align: center;
+  padding: var(--space-2) 0;
+}
+.delivery-clock.is-expired .delivery-clock__expired-msg  { display: block; }
+.delivery-clock.is-expired .delivery-clock__headline     { display: none; }
+
+/* urgency shake */
+@keyframes face-urgency {
+  0%   { transform: translateX(0); }
+  20%  { transform: translateX(-2px) rotate(-0.5deg); }
+  40%  { transform: translateX(2px) rotate(0.5deg); }
+  60%  { transform: translateX(-1.5px); }
+  80%  { transform: translateX(1.5px); }
+  100% { transform: translateX(0); }
+}
+.delivery-clock.is-urgent .delivery-clock__face {
+  animation: face-urgency 0.5s ease-in-out infinite;
+}
