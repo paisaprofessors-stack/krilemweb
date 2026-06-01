@@ -21,5 +21,6 @@ if (menuToggle && mobileMenu) {
     header?.classList.toggle("nav-open", isOpen);
     document.body.classList.toggle("nav-open", isOpen);
     menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.setAttribute("aria-label", isOpen ? "Close menu" : "Open menu");
   });
 }

@@ -1,10 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Krilem premium Indian streetwear oversized tees.">
+  <meta name="description" content="Krilem — premium Indian streetwear oversized tees in 240 GSM cotton. Anime, minimal, and limited drop collections. Cash on delivery. Ships across India.">
   <title>Krilem | Dark Luxury Streetwear</title>
+  <link rel="icon" href="./favicon.ico" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Oswald:wght@500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -27,7 +28,7 @@
       </nav>
       <div class="nav-actions">
         <a class="icon-link" href="./shop.html">Search</a>
-        <a class="icon-link" href="./cart.html">Account</a>
+        <a class="icon-link" href="./account.html">Account</a>
         <button class="cart-button" type="button" data-open-cart>Cart <span class="cart-count" data-cart-count>0</span></button>
       </div>
       <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-label="Open menu">Menu</button>
@@ -144,7 +145,12 @@
       <div class="container">
         <div class="newsletter reveal">
           <div><p class="section-kicker">Newsletter</p><h2>Early access to drops.</h2><p class="muted">No noise. Just first access, restocks, and sale windows.</p></div>
-          <form class="newsletter-form"><label class="sr-only" for="email">Email</label><input id="email" type="email" placeholder="you@example.com" required><button class="btn btn-primary" type="submit">Join The List</button></form>
+          <form class="newsletter-form" data-newsletter-form>
+            <label class="sr-only" for="email">Email</label>
+            <input id="email" type="email" placeholder="you@example.com" required>
+            <button class="btn btn-primary" type="submit">Join The List</button>
+          </form>
+          <p class="newsletter-success" data-newsletter-success style="display:none;">You're in. Watch your inbox.</p>
         </div>
       </div>
     </section>
@@ -168,5 +174,28 @@
   <script src="./js/cart.js"></script>
   <script src="./js/nav.js"></script>
   <script src="./js/animations.js"></script>
+  <script>
+    // Newsletter handler
+    const nlForm = document.querySelector('[data-newsletter-form]');
+    const nlSuccess = document.querySelector('[data-newsletter-success]');
+    const NL_ENDPOINT = ''; // TODO: paste Formspree/Google Script URL here
+    nlForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = nlForm.querySelector('input[type="email"]').value.trim();
+      try {
+        if (NL_ENDPOINT) {
+          await fetch(NL_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email })
+          });
+        }
+        nlForm.style.display = 'none';
+        if (nlSuccess) nlSuccess.style.display = '';
+      } catch (_) {
+        alert('Could not subscribe. Please try again.');
+      }
+    });
+  </script>
 </body>
 </html>

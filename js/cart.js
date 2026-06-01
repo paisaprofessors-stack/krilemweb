@@ -1,6 +1,15 @@
-let cart = { items: [], count: 0, total: 0 };
+// Load cart from localStorage on start
+let cart = {
+  items: JSON.parse(localStorage.getItem('krilem_cart') || '[]'),
+  count: 0,
+  total: 0
+};
 
 const formatPrice = (value) => "\u20b9" + value.toLocaleString("en-IN");
+
+function saveCart() {
+  localStorage.setItem('krilem_cart', JSON.stringify(cart.items));
+}
 
 function updateCount() {
   cart.count = cart.items.reduce((sum, item) => sum + item.quantity, 0);
@@ -12,6 +21,7 @@ function updateCount() {
     node.textContent = formatPrice(cart.total);
   });
   renderCart();
+  saveCart();
 }
 
 function addItem(product) {
@@ -30,6 +40,17 @@ function removeItem(id, size) {
   updateCount();
 }
 
+function changeQty(id, size, delta) {
+  const item = cart.items.find((i) => i.id === id && i.size === size);
+  if (!item) return;
+  item.quantity += delta;
+  if (item.quantity <= 0) {
+    removeItem(id, size);
+  } else {
+    updateCount();
+  }
+}
+
 function renderCart() {
   const target = document.querySelector("[data-cart-items]");
   if (!target) return;
@@ -42,8 +63,13 @@ function renderCart() {
       <img src="${item.image}" alt="${item.name}" width="64" height="80" loading="lazy">
       <div>
         <strong>${item.name}</strong>
-        <p class="muted">Size ${item.size} / Qty ${item.quantity}</p>
+        <p class="muted">Size ${item.size}</p>
         <p>${formatPrice(item.price)}</p>
+      </div>
+      <div class="qty-controls">
+        <button class="btn btn-secondary qty-btn" type="button" data-qty-id="${item.id}" data-qty-size="${item.size}" data-qty-delta="-1" aria-label="Decrease quantity">−</button>
+        <span>${item.quantity}</span>
+        <button class="btn btn-secondary qty-btn" type="button" data-qty-id="${item.id}" data-qty-size="${item.size}" data-qty-delta="1" aria-label="Increase quantity">+</button>
       </div>
       <button class="btn btn-secondary" type="button" data-remove-item="${item.id}" data-remove-size="${item.size}" aria-label="Remove ${item.name}">Remove</button>
     </article>
@@ -125,6 +151,11 @@ document.addEventListener("click", (event) => {
   const removeButton = event.target.closest("[data-remove-item]");
   if (removeButton) {
     removeItem(removeButton.dataset.removeItem, removeButton.dataset.removeSize);
+  }
+
+  const qtyBtn = event.target.closest(".qty-btn");
+  if (qtyBtn) {
+    changeQty(qtyBtn.dataset.qtyId, qtyBtn.dataset.qtySize, Number(qtyBtn.dataset.qtyDelta));
   }
 });
 
