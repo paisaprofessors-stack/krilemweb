@@ -1,33 +1,37 @@
 :root {
-  --bg: #0a0a0a;
-  --bg-soft: #0f0f0f;
-  --bg-elevated: #0c0c0c;
-  --bg-modal: #101010;
-  --panel: rgba(255,255,255,0.045);
-  --glass-highlight: rgba(255,255,255,0.075);
-  --line: rgba(255,255,255,0.10);
-  --line-strong: rgba(255,255,255,0.18);
-  --text: #f7f2ea;
-  --text-soft: #d8d1c8;
-  --text-dim: #8e8e8e;
-  --accent: #ffffff;
-  --danger: #ef6b6b;
-  --danger-soft: rgba(239,107,107,0.08);
-  --danger-glow: rgba(239,107,107,0.28);
-  --success: #79e39f;
-  --shadow-sm: 0 14px 34px rgba(0,0,0,0.24), 0 1px 0 rgba(255,255,255,0.04) inset;
-  --shadow-md: 0 24px 70px rgba(0,0,0,0.36), 0 1px 0 rgba(255,255,255,0.05) inset;
-  --shadow-lg: 0 34px 90px rgba(0,0,0,0.48), 0 1px 0 rgba(255,255,255,0.06) inset;
-  --shadow-glow: 0 0 0 1px rgba(255,255,255,0.14), 0 18px 54px rgba(255,255,255,0.12), 0 0 34px rgba(239,107,107,0.18);
-  --max: 1280px;
-  --header-h: 78px;
-  --ease: 320ms cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-fast: 200ms cubic-bezier(0.22, 1, 0.36, 1);
-  --r-sm: 16px;
-  --r-md: 20px;
-  --r-lg: 24px;
-  --r-xl: 28px;
-  --r-2xl: 32px;
+  --bg: #080808;
+  --bg-soft: #0d0d0d;
+  --bg-elevated: #111111;
+  --bg-card: #0f0f0f;
+  --panel: rgba(255,255,255,0.04);
+  --glass: rgba(255,255,255,0.06);
+  --line: rgba(255,255,255,0.08);
+  --line-strong: rgba(255,255,255,0.16);
+  --text: #f2ede6;
+  --text-soft: #c8c0b6;
+  --text-dim: #737373;
+  --accent: #f2ede6;
+  --accent-warm: #e8d5b0;
+  --cta: #ffffff;
+  --danger: #e85555;
+  --danger-soft: rgba(232,85,85,0.08);
+  --danger-glow: rgba(232,85,85,0.25);
+  --success: #5fd68a;
+  --gold: #c9a84c;
+  --shadow-xs: 0 2px 8px rgba(0,0,0,0.28);
+  --shadow-sm: 0 8px 24px rgba(0,0,0,0.36);
+  --shadow-md: 0 18px 48px rgba(0,0,0,0.44);
+  --shadow-lg: 0 28px 72px rgba(0,0,0,0.56);
+  --glow-cta: 0 0 0 1px rgba(255,255,255,0.18), 0 12px 40px rgba(255,255,255,0.10);
+  --max: 1240px;
+  --header-h: 72px;
+  --ease: 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-fast: 160ms cubic-bezier(0.22, 1, 0.36, 1);
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 18px;
+  --r-xl: 22px;
+  --r-2xl: 28px;
   --r-pill: 999px;
   --safe-bottom: env(safe-area-inset-bottom, 0px);
   --space-1: 4px;
@@ -43,25 +47,22 @@
   --space-20: 80px;
   --space-24: 96px;
   --space-28: 112px;
-  --space-32: 128px;
-  --fs-display: clamp(2.7rem, 5vw, 4.8rem);
-  --fs-section: clamp(2rem, 3.4vw, 3.3rem);
-  --fs-sub: clamp(1.95rem, 3vw, 2.6rem);
-  --fs-card: clamp(1.28rem, 5.2vw, 1.75rem);
-  --fs-sm-heading: clamp(1.05rem, 4.6vw, 1.35rem);
-  --fs-body-lg: clamp(1.1rem, 2vw, 1.24rem);
-  --fs-body: clamp(0.9rem, 1.3vw, 1rem);
-  --fs-body-sm: clamp(0.82rem, 1.1vw, 0.88rem);
-  --fs-caption: clamp(0.68rem, 1vw, 0.76rem);
-  --fs-label: clamp(0.72rem, 1vw, 0.85rem);
-  --fs-price: clamp(1.5rem, 2.6vw, 1.9rem);
+  --fs-display: clamp(2.8rem, 6vw, 5.2rem);
+  --fs-section: clamp(1.9rem, 3.2vw, 3rem);
+  --fs-sub: clamp(1.6rem, 2.6vw, 2.4rem);
+  --fs-card: clamp(1.1rem, 2vw, 1.5rem);
+  --fs-sm-heading: clamp(1rem, 1.8vw, 1.25rem);
+  --fs-body-lg: clamp(1.05rem, 1.6vw, 1.18rem);
+  --fs-body: clamp(0.88rem, 1.2vw, 0.975rem);
+  --fs-body-sm: clamp(0.8rem, 1vw, 0.875rem);
+  --fs-caption: clamp(0.68rem, 0.9vw, 0.75rem);
+  --fs-label: clamp(0.68rem, 0.9vw, 0.78rem);
+  --fs-price: clamp(1.4rem, 2.2vw, 1.8rem);
   --font-body: "Space Grotesk", system-ui, sans-serif;
   --font-display: "Oswald", Impact, sans-serif;
   --font-mono: "DM Mono", ui-monospace, monospace;
 }
 
 @media (max-width: 1024px) {
-  :root {
-    --header-h: 70px;
-  }
+  :root { --header-h: 64px; }
 }
